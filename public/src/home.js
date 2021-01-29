@@ -1,3 +1,7 @@
+function _helperSortGreatestToLeast(array) {
+  return array.sort((a, b) => b.count - a.count);
+}
+
 function totalBooksCount(books) {
   return books.length;
 }
@@ -29,8 +33,7 @@ function getMostCommonGenres(books) {
     };
     mostPopularGenres.push(popularGenre);
   };
-  const orderedPopularGenres = mostPopularGenres.sort((genre1, genre2) => genre2.count - genre1.count);
-  return orderedPopularGenres.slice(0, 5);
+  return _helperSortGreatestToLeast(mostPopularGenres).slice(0, 5);
 }
 
 function getMostPopularBooks(books) {
@@ -40,8 +43,7 @@ function getMostPopularBooks(books) {
       count: book.borrows.length
     };
   })
-  const sortedBooks = booksByCheckouts.sort((book1, book2) => book2.count - book1.count);
-  return sortedBooks.slice(0, 5);
+  return _helperSortGreatestToLeast(booksByCheckouts).slice(0, 5);
 }
 
 function getMostPopularAuthors(books, authors) {
@@ -60,8 +62,7 @@ function getMostPopularAuthors(books, authors) {
       count
     };
   });
-  const orderedPopularAuthors = popularAuthors.sort((author1, author2) => author2.count - author1.count);
-  return orderedPopularAuthors.slice(0, 5);
+  return _helperSortGreatestToLeast(popularAuthors).slice(0, 5);
 }
 
 module.exports = {
