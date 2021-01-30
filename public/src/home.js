@@ -1,5 +1,9 @@
-function _helperSortGreatestToLeast(array) {
-  return array.sort((a, b) => b.count - a.count);
+/* Helper function to sort arrays from greatest value to least, then return the first 5 entries. Functions getMostCommonGenres,
+getMostPopularBooks, and getMostPopularAuthors all generate arrays with objects with 2 properties:
+name: "", count: num.  This helper function sorts using the value from the count property. */
+
+function _helperReturnFiveGreatest(array) {
+  return array.sort((a, b) => b.count - a.count).slice(0, 5);
 }
 
 function totalBooksCount(books) {
@@ -14,6 +18,9 @@ function booksBorrowedCount(books) {
   const loanedBooks = books.filter((book) => book.borrows.some((borrow) => !borrow.returned));
   return loanedBooks.length;
 }
+/* In getMostCommonGenres, I use the reduce method to create a single object with each property key being one of the genres from the books array,
+and each key's value contains each book object that corresponds to that genre. With that object, I use a for/in loop to generate a new array,
+where each index is an object that looks like: {name: "genre", count: num}. The count is equal to the number of books of that particular genre. */
 
 function getMostCommonGenres(books) {
   const mostPopularGenres = [];
@@ -33,7 +40,7 @@ function getMostCommonGenres(books) {
     };
     mostPopularGenres.push(popularGenre);
   };
-  return _helperSortGreatestToLeast(mostPopularGenres).slice(0, 5);
+  return _helperReturnFiveGreatest(mostPopularGenres);
 }
 
 function getMostPopularBooks(books) {
@@ -43,8 +50,11 @@ function getMostPopularBooks(books) {
       count: book.borrows.length
     };
   })
-  return _helperSortGreatestToLeast(booksByCheckouts).slice(0, 5);
+  return _helperReturnFiveGreatest(booksByCheckouts);
 }
+/* In getMostPopularAuthors, for each author, I accumulate the number of checkouts from each book that corresponds to 
+that particular author. I then map a new array, where each index contains:
+{name: "first last", count: num(total checkouts)} of each author. */
 
 function getMostPopularAuthors(books, authors) {
   const popularAuthors = authors.map((author) => {
@@ -62,7 +72,7 @@ function getMostPopularAuthors(books, authors) {
       count
     };
   });
-  return _helperSortGreatestToLeast(popularAuthors).slice(0, 5);
+  return _helperReturnFiveGreatest(popularAuthors);
 }
 
 module.exports = {
