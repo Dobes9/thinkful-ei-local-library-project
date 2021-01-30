@@ -22,7 +22,8 @@ function getBooksPossessedByAccount(account, books, authors) {
   const result = [];
   const user = account.id;
   books.forEach((book) => {
-    if (!book.borrows[0].returned && book.borrows[0].id === user) {
+    const mostRecentCheckout = book.borrows[0];
+    if (!mostRecentCheckout.returned && mostRecentCheckout.id === user) {
       const author = authors.find((selectedAuthor) => selectedAuthor.id === book.authorId);
       result.push( {
         ...book,
